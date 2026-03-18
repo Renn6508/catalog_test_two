@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { processSteps } from "@/lib/services-data";
+import { processSteps } from "@/lib/service-data";
 import { MessageCircle } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);

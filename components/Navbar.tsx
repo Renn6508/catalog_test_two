@@ -46,7 +46,7 @@ export default function Navbar() {
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
-            
+            <a
               key={link.href}
               href={link.href}
               className="nav-link-item px-4 py-2 rounded-lg text-sm font-medium text-[#7070A0] hover:text-white hover:bg-white/[0.05] transition-all duration-200"
@@ -57,7 +57,7 @@ export default function Navbar() {
         </div>
 
         {/* CTA */}
-        
+        <a
           href="https://wa.me/6281234567890"
           target="_blank"
           rel="noopener noreferrer"
@@ -83,7 +83,7 @@ export default function Navbar() {
       >
         <div className="px-5 pb-5 pt-2 space-y-1 border-t border-white/[0.05] mt-3">
           {navLinks.map((link) => (
-            
+            <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
@@ -92,7 +92,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          
+          <a
             href="https://wa.me/6281234567890"
             target="_blank"
             rel="noopener noreferrer"

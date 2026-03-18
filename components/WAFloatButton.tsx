@@ -9,7 +9,7 @@ export default function WAFloatButton() {
   }, []);
 
   return (
-    
+    <a 
       ref={btnRef}
       href="https://wa.me/6281234567890?text=Halo NexStudio, saya ingin konsultasi"
       target="_blank"

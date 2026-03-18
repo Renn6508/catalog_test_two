@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Check, ArrowRight, Layers, Zap, Star } from "lucide-react";
-import { services } from "@/lib/services-data";
+import { services } from "@/lib/service-data";
 import clsx from "clsx";
 
 gsap.registerPlugin(ScrollTrigger);

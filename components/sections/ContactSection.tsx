@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Send, MessageCircle, Clock, CheckCircle, ChevronDown } from "lucide-react";
-import { services } from "@/lib/services-data";
+import { services } from "@/lib/service-data";
 
 gsap.registerPlugin(ScrollTrigger);
 
