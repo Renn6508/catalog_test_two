@@ -105,8 +105,8 @@ export default function ServiceSection() {
           if (!hasAnimated.current) {
             hasAnimated.current = true;
             gsap.fromTo(".service-card",
-              { opacity: 0, y: 30 },
-              { opacity: 1, y: 0, stagger: 0.08, duration: 0.6, ease: "power3.out" }
+              { opacity: 0, y: 40 },
+              { opacity: 1, y: 0, stagger: 0.12, duration: 1, ease: "power2.out" }
             );
           }
         }
@@ -119,15 +119,19 @@ export default function ServiceSection() {
   useEffect(() => {
     if (hasAnimated.current) {
       gsap.fromTo(".service-card",
-        { opacity: 0, y: 20, scale: 0.97 },
-        { opacity: 1, y: 0, scale: 1, stagger: 0.06, duration: 0.5, ease: "power3.out" }
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, stagger: 0.1, duration: 0.8, ease: "power2.out", clearProps: "all" }
       );
     }
   }, [activeCategory]);
 
   const handleCategoryChange = (cat: string) => {
     if (cat === activeCategory) return;
-    setActiveCategory(cat);
+    // Fade out current cards first, then switch
+    gsap.to(".service-card", {
+      opacity: 0, y: -10, duration: 0.4, ease: "power2.in", stagger: 0.04,
+      onComplete: () => setActiveCategory(cat)
+    });
   };
 
   return (
