@@ -15,41 +15,50 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline();
-    tl.from(logoRef.current, { opacity: 0, x: -20, duration: 0.7, ease: "power3.out" })
-      .from(".nav-link-item", { opacity: 0, y: -10, stagger: 0.08, duration: 0.5, ease: "power2.out" }, "-=0.3");
+    tl.from(logoRef.current, { opacity: 0, x: -20, duration: 0.8, ease: "power3.out" })
+      .from(".nav-link-item", { opacity: 0, y: -10, stagger: 0.1, duration: 0.6, ease: "power2.out" }, "-=0.4");
 
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-[#06060F]/90 backdrop-blur-xl border-b border-white/[0.05] py-3" : "bg-transparent py-5"
-      }`}
+      ref={navRef}
+      className={`fixed top-4 left-0 right-0 z-50 flex justify-center px-4 transition-all duration-500`}
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between">
+      <div 
+        className={`w-full max-w-5xl flex items-center justify-between px-6 py-3.5 transition-all duration-500 ${
+          scrolled 
+            ? "glass-pill rounded-2xl" 
+            : "bg-transparent"
+        }`}
+      >
         {/* Logo */}
-        <div ref={logoRef} className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#F2C94C] flex items-center justify-center">
-            <span className="text-[#06060F] font-syne font-black text-sm">N</span>
+        <div ref={logoRef} className="flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#7000FF] flex items-center justify-center shadow-[0_0_15px_rgba(0,240,255,0.4)]">
+            <span className="text-white font-syne font-black text-lg">N</span>
+            <div className="absolute inset-0 bg-white/20 rounded-xl pointer-events-none opacity-0 hover:opacity-100 transition-opacity"></div>
           </div>
-          <span className="font-syne font-bold text-lg text-white tracking-tight">
-            Nex<span className="text-[#F2C94C]">Studio</span>
+          <span className="font-syne font-bold text-xl text-white tracking-tight">
+            Nex<span className="text-highlight">Studio</span>
           </span>
         </div>
 
-        {/* Desktop links */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="nav-link-item px-4 py-2 rounded-lg text-sm font-medium text-[#7070A0] hover:text-white hover:bg-white/[0.05] transition-all duration-200"
+              className="nav-link-item px-4 py-2 rounded-lg text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/[0.08] transition-all duration-300"
             >
               {link.label}
             </a>
@@ -61,33 +70,34 @@ export default function Navbar() {
           href="https://wa.me/6281234567890"
           target="_blank"
           rel="noopener noreferrer"
-          className="nav-link-item hidden md:inline-flex btn-primary text-sm py-2.5 px-5"
+          className="nav-link-item hidden md:inline-flex btn-premium text-sm !py-2 !px-5"
         >
-          Hubungi Kami
+          Mulai Proyek
         </a>
 
-        {/* Mobile toggle */}
+        {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden w-9 h-9 flex items-center justify-center rounded-lg bg-white/[0.05] text-white border border-white/[0.08]"
+          className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white/[0.05] border border-white/[0.1] text-white hover:bg-white/[0.1] transition-all"
         >
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu Dropdown */}
       <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`md:hidden absolute top-[calc(100%+8px)] left-4 right-4 transition-all duration-400 overflow-hidden rounded-2xl ${
+          mobileOpen ? "max-h-96 opacity-100 scale-100 shadow-[0_20px_40px_rgba(0,0,0,0.5)]" : "max-h-0 opacity-0 scale-95 pointer-events-none"
         }`}
+        style={{ transformOrigin: "top center" }}
       >
-        <div className="px-5 pb-5 pt-2 space-y-1 border-t border-white/[0.05] mt-3">
+        <div className="glass-card flex flex-col p-4 gap-2">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block px-4 py-3 rounded-lg text-sm font-medium text-[#7070A0] hover:text-white hover:bg-white/[0.05] transition-all"
+              className="px-4 py-3.5 rounded-xl text-sm font-semibold text-gray-300 hover:text-white hover:bg-white/[0.08] transition-all"
             >
               {link.label}
             </a>
@@ -96,9 +106,9 @@ export default function Navbar() {
             href="https://wa.me/6281234567890"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary block text-center mt-3"
+            className="btn-premium mt-2 justify-center"
           >
-            Hubungi via WhatsApp
+            Konsultasi Gratis
           </a>
         </div>
       </div>

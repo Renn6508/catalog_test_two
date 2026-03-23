@@ -1,209 +1,155 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, Sparkles, Star, Zap } from "lucide-react";
-import { stats } from "@/lib/service-data";
+import { ArrowRight, Star, CheckCircle, Code } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
-
-function Counter({ end, suffix }: { end: number; suffix: string }) {
-  const [current, setCurrent] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const obj = { val: 0 };
-    ScrollTrigger.create({
-      trigger: ref.current,
-      start: "top 85%",
-      onEnter: () => {
-        gsap.to(obj, {
-          val: end,
-          duration: 1.8,
-          ease: "power2.out",
-          onUpdate: () => setCurrent(Math.round(obj.val)),
-        });
-      },
-    });
-  }, [end]);
-
-  return (
-    <span ref={ref} className="counter-num text-3xl md:text-4xl">
-      {current}{suffix}
-    </span>
-  );
-}
-
-const floatingTags = [
-  { label: "Company Profile 🏢", color: "#4F9EFF", anim: "float 5s ease-in-out infinite" },
-  { label: "Undangan Digital 💌", color: "#FF7BAC", anim: "float 6s ease-in-out infinite 0.5s" },
-  { label: "Joki SMK RPL 💻", color: "#7BE495", anim: "float 7s ease-in-out infinite 1s" },
-  { label: "UI/UX Figma ✏️", color: "#60A5FA", anim: "float 5.5s ease-in-out infinite 1.5s" },
+const stats = [
+  { value: "50+", label: "Klien Puas", icon: <Star className="text-[#F2C94C]" size={18} /> },
+  { value: "100+", label: "Proyek Selesai", icon: <CheckCircle className="text-[#00F0FF]" size={18} /> },
+  { value: "5 Thn", label: "Pengalaman", icon: <Code className="text-[#7000FF]" size={18} /> },
 ];
 
 export default function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLHeadingElement>(null);
-  const subRef = useRef<HTMLParagraphElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.2 });
-
-      tl.from(badgeRef.current, { opacity: 0, y: -20, duration: 0.6, ease: "back.out(2)" });
-      tl.from(".hero-word", { opacity: 0, y: 50, rotationX: -20, stagger: 0.08, duration: 0.7, ease: "power3.out" }, "-=0.2");
-      tl.from(subRef.current, { opacity: 0, y: 25, duration: 0.6, ease: "power2.out" }, "-=0.3");
-      tl.from(".cta-btn", { opacity: 0, y: 20, stagger: 0.1, duration: 0.5, ease: "power2.out" }, "-=0.2");
-      tl.from(statsRef.current, { opacity: 0, y: 20, duration: 0.5, ease: "power2.out" }, "-=0.2");
-      tl.from(".float-tag", { opacity: 0, scale: 0.7, stagger: 0.1, duration: 0.5, ease: "back.out(2)" }, "-=0.4");
-
-      // Parallax blobs
-      gsap.to(".hero-blob-1", {
-        y: -80,
-        scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: 1.5 },
+      // Glow background animations
+      gsap.to(".glow-blob-1", {
+        x: "random(-100, 100)", y: "random(-100, 100)", rotation: "random(-30, 30)",
+        duration: 15, ease: "sine.inOut", repeat: -1, yoyo: true
       });
-      gsap.to(".hero-blob-2", {
-        y: -50, x: 30,
-        scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "bottom top", scrub: 2 },
+      gsap.to(".glow-blob-2", {
+        x: "random(-150, 150)", y: "random(-150, 150)", rotation: "random(-45, 45)",
+        duration: 20, ease: "sine.inOut", repeat: -1, yoyo: true
       });
-    }, sectionRef);
 
+      // Intro animations
+      gsap.from(".hero-badge", { opacity: 0, y: 30, duration: 1, ease: "power4.out", delay: 0.1 });
+      gsap.from(".hero-title span", {
+        opacity: 0, y: 40, rotationX: -20, stagger: 0.1, duration: 1.2, ease: "power3.out", delay: 0.2
+      });
+      gsap.from(".hero-desc", { opacity: 0, y: 20, duration: 1, ease: "power3.out", delay: 0.6 });
+      gsap.from(".hero-cta", { opacity: 0, scale: 0.9, stagger: 0.15, duration: 0.8, ease: "back.out(1.5)", delay: 0.8 });
+      
+      // Floating cards
+      gsap.from(".hero-stat-card", {
+        opacity: 0, y: 30, rotation: -5, stagger: 0.1, duration: 1, ease: "power3.out", delay: 1
+      });
+    }, containerRef);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen flex flex-col justify-center pt-24 pb-16 overflow-hidden bg-grid"
+    <section 
+      ref={containerRef} 
+      className="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden"
     >
-      {/* Blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="hero-blob-1 absolute w-[600px] h-[600px] rounded-full opacity-[0.12] blur-[100px]"
-          style={{ background: "radial-gradient(circle, #F2C94C 0%, transparent 70%)", top: "-10%", left: "-5%" }} />
-        <div className="hero-blob-2 absolute w-[500px] h-[500px] rounded-full opacity-[0.08] blur-[80px]"
-          style={{ background: "radial-gradient(circle, #60A5FA 0%, transparent 70%)", bottom: "0%", right: "-5%" }} />
-        <div className="absolute w-[300px] h-[300px] rounded-full opacity-[0.06] blur-[60px]"
-          style={{ background: "radial-gradient(circle, #EB5757 0%, transparent 70%)", top: "60%", left: "40%" }} />
+      {/* Animated Aurora Background */}
+      <div ref={backgroundRef} className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="bg-grid absolute inset-0 opacity-20" />
+        <div className="glow-blob-1 absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-gradient-radial from-[#7000FF]/25 to-transparent blur-[80px]" />
+        <div className="glow-blob-2 absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-radial from-[#00F0FF]/20 to-transparent blur-[80px]" />
+        <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] rounded-full bg-gradient-radial from-[#F2C94C]/15 to-transparent blur-[60px] animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030308]/50 to-[#030308] pointer-events-none" />
       </div>
 
-      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-100 pointer-events-none" />
-
-      <div className="relative max-w-7xl mx-auto px-5 md:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left */}
-          <div>
-            <div ref={badgeRef} className="mb-6">
-              <span className="section-tag"><Sparkles size={12} />Jasa Digital Terpercaya</span>
-            </div>
-
-            <h1 ref={headingRef} className="font-syne font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-white mb-6">
-              <span className="hero-word inline-block mr-3">Wujudkan</span>
-              <span className="hero-word inline-block mr-3">Kehadiran</span>
-              <span className="hero-word inline-block mr-3 text-highlight glow-text">Digital</span>
-              <span className="hero-word inline-block mr-3">Anda</span>
-              <br />
-              <span className="hero-word inline-block text-[#7070A0] text-3xl md:text-4xl lg:text-5xl">Bersama Kami</span>
-            </h1>
-
-            <p ref={subRef} className="text-[#7070A0] text-base md:text-lg leading-relaxed mb-8 max-w-md">
-              Layanan profesional pembuatan website, desain UI/UX, dan solusi digital lainnya —{" "}
-              <span className="text-white/70">cepat, terjangkau, berkualitas.</span>
-            </p>
-
-            <div className="flex flex-wrap gap-3 mb-12">
-              <a href="#layanan" className="cta-btn btn-primary">
-                Lihat Layanan <ArrowRight size={16} />
-              </a>
-              <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="cta-btn btn-secondary">
-                <span className="text-green-400">●</span> Konsultasi Gratis
-              </a>
-            </div>
-
-            <div ref={statsRef} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center sm:text-left">
-                  <div className="flex items-end gap-0.5 justify-center sm:justify-start">
-                    <Counter end={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <p className="text-xs text-[#4A4A70] mt-1 font-medium">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+      <div className="max-w-7xl mx-auto px-5 md:px-8 relative z-10 w-full grid lg:grid-cols-2 gap-16 items-center">
+        
+        {/* Left Content */}
+        <div ref={contentRef} className="text-center lg:text-left">
+          <div className="hero-badge inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-6">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00F0FF] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00F0FF]"></span>
+            </span>
+            <span className="text-sm font-medium text-gray-300">Agensi Web Premium</span>
           </div>
 
-          {/* Right – Visual cluster */}
-          <div className="hidden lg:block relative h-[480px]">
-            {/* Central card */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-64 bg-[#111128] border border-white/[0.08] rounded-2xl p-5 shadow-2xl z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#F2C94C]/10 flex items-center justify-center text-xl">🚀</div>
-                <div>
-                  <p className="text-xs text-[#4A4A70] font-medium">Total Layanan</p>
-                  <p className="font-syne font-bold text-white text-lg">9 Kategori</p>
-                </div>
-              </div>
-              <div className="space-y-2.5">
-                {[
-                  { label: "Website", value: 5, color: "#4F9EFF" },
-                  { label: "Akademik", value: 2, color: "#7BE495" },
-                  { label: "Desain", value: 2, color: "#F97316" },
-                ].map((item) => (
-                  <div key={item.label}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className="text-[#7070A0]">{item.label}</span>
-                      <span className="text-white font-semibold">{item.value} layanan</span>
-                    </div>
-                    <div className="h-1 bg-white/[0.05] rounded-full overflow-hidden">
-                      <div className="h-full rounded-full" style={{ width: `${(item.value / 9) * 100}%`, background: item.color }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <h1 className="hero-title font-syne font-extrabold text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-6 tracking-tight text-white flex flex-wrap gap-x-4 justify-center lg:justify-start">
+            <span>Ubah</span>
+            <span>Ide</span>
+            <span className="text-highlight">Menjadi</span>
+            <span className="text-gradient-cyan">Karya</span>
+            <span className="text-gradient-purple">Digital</span>
+            <span>Nyata</span>
+          </h1>
 
-            {/* Floating tags */}
-            {floatingTags.map((tag, i) => (
-              <div
-                key={i}
-                className="float-tag absolute"
-                style={{
-                  left: i % 2 === 0 ? "5%" : "65%",
-                  top: i < 2 ? `${15 + i * 15}%` : `${55 + (i - 2) * 18}%`,
-                  animation: tag.anim,
-                }}
-              >
-                <div className="px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap border shadow-lg"
-                  style={{ background: `${tag.color}15`, borderColor: `${tag.color}30`, color: tag.color }}>
-                  {tag.label}
-                </div>
-              </div>
-            ))}
+          <p className="hero-desc text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+            Hadirkan identitas bisnis Anda ke dunia digital dengan desain premium, responsif, dan teknologi terdepan dari NexStudio.
+          </p>
 
-            {/* Rating badge */}
-            <div className="float-tag absolute bottom-12 right-4 bg-[#111128] border border-white/[0.08] rounded-xl p-3 flex items-center gap-2 shadow-xl"
-              style={{ animation: "float 7s ease-in-out infinite 1s" }}>
-              <div className="flex">
-                {[...Array(5)].map((_, i) => <Star key={i} size={12} fill="#F2C94C" className="text-[#F2C94C]" />)}
-              </div>
-              <span className="text-xs font-semibold text-white">5.0 Rating</span>
-            </div>
-
-            {/* Fast delivery badge */}
-            <div className="float-tag absolute top-10 right-12 bg-[#111128] border border-white/[0.08] rounded-xl p-3 flex items-center gap-2 shadow-xl"
-              style={{ animation: "float 8s ease-in-out infinite 0.5s" }}>
-              <Zap size={14} className="text-[#F2C94C]" />
-              <span className="text-xs font-semibold text-white">Fast Delivery</span>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a href="#layanan" className="hero-cta btn-premium w-full sm:w-auto text-lg group">
+              Lihat Layanan
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="hero-cta btn-glass w-full sm:w-auto text-lg">
+              Konsultasi Gratis
+            </a>
           </div>
         </div>
-      </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-        <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-[#F2C94C]" />
-        <p className="text-[10px] tracking-[0.2em] uppercase text-[#7070A0]">Scroll</p>
+        {/* Right Content / Visual */}
+        <div ref={visualRef} className="relative hidden lg:block h-[600px]">
+          {/* Main Floating Glass Panel */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[500px] glass-card rounded-3xl border border-white/10 p-6 flex flex-col justify-between overflow-hidden shadow-[0_20px_60px_-15px_rgba(0,240,255,0.3)]">
+            {/* Inner Glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-radial from-[#7000FF]/20 to-transparent blur-3xl rounded-full" />
+            
+            <div className="space-y-4">
+               <div className="flex justify-between items-center">
+                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#00F0FF] to-[#7000FF] p-0.5">
+                   <div className="w-full h-full bg-[#030308] rounded-[10px] flex items-center justify-center">
+                     <span className="font-syne font-bold text-white">NX</span>
+                   </div>
+                 </div>
+                 <div className="flex gap-2">
+                   <div className="w-3 h-3 rounded-full bg-[#FFDF80]" />
+                   <div className="w-3 h-3 rounded-full bg-[#00F0FF]" />
+                   <div className="w-3 h-3 rounded-full bg-[#7000FF]" />
+                 </div>
+               </div>
+               <div className="h-32 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center">
+                 <div className="w-20 h-20 rounded-full border-4 border-[#00F0FF]/30 flex items-center justify-center relative">
+                   <div className="w-16 h-16 rounded-full border-4 border-t-[#00F0FF] border-r-transparent border-b-[#7000FF] border-l-transparent animate-spin" />
+                   <Star className="absolute text-[#F2C94C]" size={20} />
+                 </div>
+               </div>
+            </div>
+
+            <div className="space-y-3 relative z-10">
+              <div className="h-4 w-3/4 rounded-md bg-white/10" />
+              <div className="h-4 w-1/2 rounded-md bg-white/10" />
+              <div className="h-10 w-full rounded-xl bg-gradient-to-r from-[#00F0FF] to-[#7000FF] opacity-80" />
+            </div>
+          </div>
+
+          {/* Floating Stat Badges */}
+          {stats.map((stat, i) => (
+            <div 
+              key={i} 
+              className={`hero-stat-card glass-pill absolute flex items-center gap-4 p-4 rounded-2xl ${
+                i === 0 ? "top-[10%] -left-[10%]" : 
+                i === 1 ? "bottom-[15%] -left-[5%]" : 
+                "bottom-[30%] -right-[15%]"
+              }`}
+            >
+              <div className="w-12 h-12 rounded-xl bg-[#030308] border border-white/10 flex items-center justify-center">
+                {stat.icon}
+              </div>
+              <div>
+                <h4 className="font-syne font-bold text-xl text-white">{stat.value}</h4>
+                <p className="text-xs text-gray-400 font-medium tracking-wide uppercase">{stat.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
