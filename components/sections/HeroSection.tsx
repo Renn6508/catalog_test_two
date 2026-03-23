@@ -31,7 +31,7 @@ export default function HeroSection() {
         opacity: 0, y: 50, stagger: 0.12, duration: 1.2, ease: "power3.out", delay: 0.2
       });
       gsap.from(".hero-desc", { opacity: 0, y: 20, duration: 1, ease: "power3.out", delay: 0.6 });
-      gsap.from(".hero-cta", { opacity: 0, y: 20, stagger: 0.15, duration: 0.8, ease: "back.out(1.5)", delay: 0.8 });
+      gsap.fromTo(".hero-cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.15, duration: 0.8, ease: "back.out(1.5)", delay: 0.8 });
       gsap.from(".hero-stat", { opacity: 0, y: 30, stagger: 0.12, duration: 0.8, ease: "power3.out", delay: 1.1 });
 
       // Floating orbs
@@ -159,23 +159,21 @@ export default function HeroSection() {
           </div>
 
           {/* CTAs */}
-          <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+          <div ref={ctaRef} className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20">
             <a href="#layanan"
-              className="hero-cta group relative inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_35px_rgba(232,168,56,0.3)]"
+              className="hero-cta group inline-flex items-center gap-3 px-9 py-4 rounded-full font-bold text-lg bg-gradient-to-r from-[#E8A838] to-[#F0D078] text-[#0B0B0F] shadow-[0_4px_25px_rgba(232,168,56,0.35)] hover:shadow-[0_8px_40px_rgba(232,168,56,0.5)] hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              {/* Gradient border via pseudo */}
-              <span className="absolute inset-0 rounded-full border border-[#E8A838]/40 group-hover:border-[#E8A838]/60 transition-colors" />
-              <span className="absolute inset-0 rounded-full bg-gradient-to-r from-[#E8A838]/[0.08] to-transparent group-hover:from-[#E8A838]/[0.15] transition-all" />
-              <span className="relative z-10 flex items-center gap-2">
-                Lihat Layanan
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </span>
+              Lihat Layanan
+              <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
             </a>
             <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
-              className="hero-cta group relative inline-flex items-center gap-2 px-8 py-4 rounded-full text-gray-300 font-bold text-lg overflow-hidden transition-all duration-300 hover:text-white hover:scale-105"
+              className="hero-cta group inline-flex items-center gap-3 px-9 py-4 rounded-full font-bold text-lg border-2 border-white/20 text-white backdrop-blur-sm bg-white/[0.04] hover:bg-white/[0.1] hover:border-white/40 hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <span className="absolute inset-0 rounded-full border border-white/10 group-hover:border-white/25 transition-colors" />
-              <span className="relative z-10">Konsultasi Gratis</span>
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-60"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#25D366]"></span>
+              </span>
+              Konsultasi Gratis
             </a>
           </div>
         </div>
