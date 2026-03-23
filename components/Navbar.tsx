@@ -29,9 +29,9 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 transition-all duration-500" style={{ paddingTop: scrolled ? "0.5rem" : "1rem" }}>
       <div
-        className={`w-full max-w-5xl flex items-center justify-between px-6 py-3 transition-all duration-500 ${
+        className={`w-full max-w-5xl flex items-center justify-between px-6 py-3 transition-all duration-500 border border-transparent ${
           scrolled
-            ? "bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+            ? "bg-white/[0.03] backdrop-blur-2xl border-white/[0.06] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
             : "bg-transparent"
         }`}
       >
