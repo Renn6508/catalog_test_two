@@ -9,27 +9,27 @@ gsap.registerPlugin(ScrollTrigger);
 
 function TestimonialCard({ t }: { t: (typeof testimonials)[0] }) {
   return (
-    <div className="flex-shrink-0 w-[300px] md:w-[350px] glass-card rounded-3xl p-6 mx-3 relative group overflow-hidden">
-      {/* Decorative Blur */}
-      <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-radial from-[#F2C94C]/10 to-transparent blur-2xl group-hover:from-[#F2C94C]/20 transition-all duration-500 pointer-events-none" />
+    <div className="flex-shrink-0 w-[300px] md:w-[350px] card-solid rounded-2xl p-6 mx-3 relative group overflow-hidden">
+      {/* Hover glow */}
+      <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#E8A838]/[0.04] blur-3xl group-hover:bg-[#E8A838]/[0.08] transition-all duration-500 pointer-events-none rounded-full" />
 
       <div className="relative z-10">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#F2C94C]/20 to-[#FFDF80]/5 flex items-center justify-center mb-5 border border-[#F2C94C]/20 shadow-[0_4px_15px_rgba(242,201,76,0.15)] group-hover:scale-110 transition-transform duration-300">
-          <Quote size={16} className="text-[#F2C94C]" />
+        <div className="w-9 h-9 rounded-lg bg-[#E8A838]/[0.08] border border-[#E8A838]/15 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+          <Quote size={14} className="text-[#E8A838]" />
         </div>
-        
-        <div className="flex gap-1 mb-4">
-          {[...Array(t.rating)].map((_, i) => <Star key={i} size={14} fill="#F2C94C" className="text-[#F2C94C] drop-shadow-[0_0_5px_rgba(242,201,76,0.5)]" />)}
+
+        <div className="flex gap-0.5 mb-4">
+          {[...Array(t.rating)].map((_, i) => <Star key={i} size={13} fill="#E8A838" className="text-[#E8A838]" />)}
         </div>
-        
-        <p className="text-sm text-gray-300 leading-relaxed mb-6 min-h-[70px]">&quot;{t.text}&quot;</p>
-        
-        <div className="flex items-center gap-3 pt-5 border-t border-white/5">
-          <div className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg border border-white/10 flex-shrink-0"
-            style={{ background: t.avatarBg }}>{t.avatar}</div>
+
+        <p className="text-sm text-gray-400 leading-relaxed mb-6 min-h-[70px]">&quot;{t.text}&quot;</p>
+
+        <div className="flex items-center gap-3 pt-5 border-t border-white/[0.05]">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white flex-shrink-0 border border-white/[0.08]"
+            style={{ background: `linear-gradient(135deg, ${t.avatarBg}30, ${t.avatarBg}10)` }}>{t.avatar}</div>
           <div className="min-w-0 flex-1">
-            <p className="text-white font-bold text-sm truncate group-hover:text-[#F2C94C] transition-colors">{t.name}</p>
-            <p className="text-gray-500 text-xs truncate">{t.role}</p>
+            <p className="text-white font-semibold text-sm truncate group-hover:text-[#E8A838] transition-colors">{t.name}</p>
+            <p className="text-gray-600 text-xs truncate">{t.role}</p>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ export default function TestimonialsSection() {
         scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
       });
 
-      // Marquee jalurs
+      // Marquee
       gsap.to(track1Ref.current, { x: `-${100 / 2}%`, duration: 40, ease: "none", repeat: -1 });
       gsap.fromTo(track2Ref.current, { x: `-${100 / 2}%` }, { x: "0%", duration: 45, ease: "none", repeat: -1 });
     }, sectionRef);
@@ -60,10 +60,11 @@ export default function TestimonialsSection() {
   const half2 = testimonials.slice(3);
 
   return (
-    <section id="testimoni" ref={sectionRef} className="py-24 md:py-32 relative overflow-hidden bg-[#030308] border-t border-white/5">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-[#F2C94C]/5 to-transparent blur-[100px] pointer-events-none" />
+    <section id="testimoni" ref={sectionRef} className="py-24 md:py-32 relative overflow-hidden border-t border-white/[0.04]">
+      {/* Background */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E8A838]/[0.02] blur-[120px] pointer-events-none rounded-full" />
 
-      <div className="max-w-7xl mx-auto px-5 md:px-8 mb-16 relative z-10">
+      <div className="max-w-6xl mx-auto px-5 md:px-8 mb-16 relative z-10">
         <div className="testimonial-header text-center">
           <span className="section-tag mb-4"><Star size={14} fill="currentColor" /> Kepuasan Klien</span>
           <h2 className="font-syne font-extrabold text-4xl md:text-5xl lg:text-6xl text-white mt-4 mb-6 tracking-tight">
@@ -72,14 +73,15 @@ export default function TestimonialsSection() {
           <p className="text-gray-400 text-lg max-w-2xl mx-auto leading-relaxed">
             Ratusan klien telah mempercayakan kebutuhan digital profesional mereka kepada kualitas NexStudio.
           </p>
-          
-          <div className="inline-flex items-center gap-4 mt-8 glass-pill px-6 py-3 rounded-2xl">
+
+          {/* Rating badge */}
+          <div className="inline-flex items-center gap-4 mt-8 bg-[#13131A] border border-white/[0.06] px-6 py-3 rounded-xl">
             <div className="flex gap-1">
-              {[...Array(5)].map((_, i) => <Star key={i} size={18} fill="#F2C94C" className="text-[#F2C94C] drop-shadow-[0_0_8px_rgba(242,201,76,0.6)]" />)}
+              {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="#E8A838" className="text-[#E8A838]" />)}
             </div>
-            <div className="w-px h-6 bg-white/20" />
-            <span className="font-syne font-bold text-xl text-white">5.0</span>
-            <span className="text-gray-400 text-sm">Review Sempurna</span>
+            <div className="w-px h-5 bg-white/[0.08]" />
+            <span className="font-syne font-bold text-lg text-white">5.0</span>
+            <span className="text-gray-500 text-sm">Review Sempurna</span>
           </div>
         </div>
       </div>
@@ -87,8 +89,8 @@ export default function TestimonialsSection() {
       {/* Marquee Rows */}
       {[{ ref: track1Ref, data: half1 }, { ref: track2Ref, data: half2 }].map(({ ref, data }, ri) => (
         <div key={ri} className={`relative overflow-hidden ${ri === 0 ? "mb-6" : ""}`}>
-          <div className="absolute left-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-r from-[#030308] to-transparent z-20 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 md:w-64 bg-gradient-to-l from-[#030308] to-transparent z-20 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-32 md:w-48 bg-gradient-to-r from-[#0B0B0F] to-transparent z-20 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 md:w-48 bg-gradient-to-l from-[#0B0B0F] to-transparent z-20 pointer-events-none" />
           <div ref={ref} className="flex" style={{ width: "max-content" }}>
             {[...data, ...data, ...data, ...data].map((item, i) => (
               <TestimonialCard key={i} t={item} />
