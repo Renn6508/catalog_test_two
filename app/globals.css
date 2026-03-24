@@ -272,12 +272,51 @@ html, body {
   box-shadow: 0 8px 30px rgba(232, 168, 56, 0.4);
 }
 
-/* ===== HERO PINNED SECTION ===== */
+/* ===== HERO PINNED SECTION (CodePen style) ===== */
+.hero-wrapper {
+  font-family: 'Syne', sans-serif;
+}
+
 .pin-spacer {
   pointer-events: none;
+}
+
+/* Hero title - responsive fluid typography like CodePen */
+.hero-title {
+  --f-5-min: 32;
+  --f-5-max: 140;
+  font-size: calc(
+    ((var(--f-5-min) / 16) * 1rem) + (var(--f-5-max) - var(--f-5-min)) *
+      ((100vw - 20rem) / (96 - 20))
+  );
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 640px) {
+  .hero-title {
+    --f-5-min: 28;
+    --f-5-max: 64;
+  }
 }
 
 /* Ensure smooth transitions for pinned elements */
 header[style*="position: fixed"] {
   will-change: transform;
+}
+
+/* Hero image wrapper positioning */
+.hero-image-wrapper {
+  will-change: transform;
+}
+
+/* Logo SVG visibility - controlled by GSAP */
+.logo svg {
+  opacity: 0;
+}
+
+/* SVG draw elements - initial state for GSAP animation */
+.draw-circle,
+.draw-arc {
+  will-change: stroke-dashoffset;
 }
