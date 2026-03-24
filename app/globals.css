@@ -241,3 +241,43 @@ html, body {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(232, 168, 56, 0.3), transparent);
 }
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+  background-color: rgba(19, 19, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card:hover {
+  border-color: rgba(232, 168, 56, 0.2);
+}
+
+/* ===== PREMIUM BUTTON ===== */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  color: #0B0B0F;
+  background: linear-gradient(135deg, #E8A838, #F0D078);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(232, 168, 56, 0.25);
+}
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(232, 168, 56, 0.4);
+}
+
+/* ===== HERO PINNED SECTION ===== */
+.pin-spacer {
+  pointer-events: none;
+}
+
+/* Ensure smooth transitions for pinned elements */
+header[style*="position: fixed"] {
+  will-change: transform;
+}
